@@ -12,37 +12,37 @@
     body {
       margin: 0;
       font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      -webkit-tap-highlight-color: transparent;
       background: #fff7ed;
       min-height: 100vh;
+      padding: 32px 16px;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 32px 16px;
-      -webkit-tap-highlight-color: transparent;
     }
 
-    .container {
+    .page-wrap {
       width: 100%;
-      max-width: 430px;
+      max-width: 448px;
       background: #ffffff;
+      border: 1px solid #ffedd5;
       border-radius: 24px;
       overflow: hidden;
-      border: 1px solid #ffedd5;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.08);
     }
 
     .header {
       background: #f97316;
       color: #ffffff;
-      text-align: center;
       padding: 24px;
+      text-align: center;
     }
 
     .header h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.05em;
     }
 
     .header p {
@@ -51,42 +51,53 @@
       color: #ffedd5;
     }
 
-    form {
+    .form {
       padding: 24px;
     }
 
-    .section {
-      margin-bottom: 24px;
+    .space-y-6 > * + * {
+      margin-top: 24px;
     }
 
     .label {
       display: block;
       color: #374151;
-      font-weight: 600;
+      font-size: 16px;
+      font-weight: 500;
       margin-bottom: 12px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
-    .required {
+    .text-red {
       color: #ef4444;
     }
 
-    .grid-1,
-    .grid-2 {
+    .grid-1 {
       display: grid;
+      grid-template-columns: 1fr;
       gap: 12px;
     }
 
-    .grid-1 {
-      grid-template-columns: 1fr;
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
     }
 
-    .grid-2 {
-      grid-template-columns: 1fr 1fr;
+    hr {
+      border: none;
+      border-top: 1px solid #f3f4f6;
+      margin: 0;
     }
 
     input[type="radio"].hidden-radio {
       display: none;
+    }
+
+    input[type="radio"].hidden-radio:checked + label {
+      background-color: #f97316;
+      color: #ffffff;
+      border-color: #f97316;
     }
 
     .option-label {
@@ -94,9 +105,9 @@
       text-align: center;
       cursor: pointer;
       border: 1px solid #d1d5db;
-      border-radius: 14px;
-      padding: 14px 16px;
-      background: #fff;
+      border-radius: 12px;
+      padding: 12px 16px;
+      background: #ffffff;
       color: #374151;
       transition: all 0.2s ease;
       user-select: none;
@@ -106,94 +117,103 @@
       background: #fff7ed;
     }
 
-    input[type="radio"].hidden-radio:checked + .option-label {
-      background: #f97316;
-      color: #fff;
-      border-color: #f97316;
-    }
-
-    .divider {
-      border: 0;
-      border-top: 1px solid #f3f4f6;
-      margin: 24px 0;
-    }
-
     .input,
     .textarea {
       width: 100%;
       border: 1px solid #d1d5db;
-      border-radius: 14px;
-      padding: 14px 16px;
+      border-radius: 12px;
+      padding: 12px 16px;
       font-size: 16px;
+      color: #111827;
+      background: #ffffff;
       outline: none;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      background: #fff;
     }
 
     .input:focus,
     .textarea:focus {
-      border-color: #f97316;
-      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+      border-color: transparent;
+      box-shadow: 0 0 0 2px #f97316;
     }
 
     .textarea {
       resize: none;
-      min-height: 120px;
+      min-height: 110px;
       line-height: 1.6;
     }
 
-    .star-wrap {
+    .star-container {
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      flex-wrap: wrap;
     }
 
-    .star-svg {
-      width: 40px;
-      height: 40px;
-      color: #d1d5db;
+    .star-btn {
+      transition: transform 0.1s ease-in-out;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 4px;
       cursor: pointer;
-      transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
+      border-radius: 8px;
     }
 
-    .star-svg:active {
-      transform: scale(0.85);
+    .star-btn:active {
+      transform: scale(0.8);
     }
 
-    .star-active {
+    .star-btn svg {
+      pointer-events: none;
+      width: 48px;
+      height: 48px;
+      color: #d1d5db;
+      transition: color 0.2s ease;
+      display: block;
+    }
+
+    .star-btn svg.active {
       color: #facc15;
     }
 
-    .error {
+    .error-text {
       color: #ef4444;
       font-size: 14px;
       text-align: center;
       margin-top: 8px;
+      font-weight: 500;
       display: none;
+    }
+
+    .error-text.show {
+      display: block;
     }
 
     .submit-btn {
       width: 100%;
-      border: none;
       background: #f97316;
-      color: #fff;
-      font-size: 17px;
+      color: #ffffff;
       font-weight: 700;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
       padding: 16px;
-      border-radius: 14px;
-      cursor: pointer;
-      box-shadow: 0 8px 18px rgba(249, 115, 22, 0.25);
-      transition: background 0.2s ease;
+      box-shadow: 0 10px 20px rgba(249, 115, 22, 0.25);
+      transition: background-color 0.2s ease;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 8px;
+      cursor: pointer;
     }
 
     .submit-btn:hover {
       background: #ea580c;
+    }
+
+    .submit-btn svg {
+      width: 20px;
+      height: 20px;
     }
 
     .modal {
@@ -203,7 +223,7 @@
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 999;
+      z-index: 50;
       padding: 16px;
     }
 
@@ -212,35 +232,41 @@
     }
 
     .modal-card {
-      width: 100%;
-      max-width: 360px;
-      background: #fff;
-      border-radius: 20px;
+      background: #ffffff;
+      border-radius: 16px;
       padding: 24px;
+      width: 100%;
+      max-width: 384px;
       text-align: center;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 24px 40px rgba(0, 0, 0, 0.2);
     }
 
     .success-icon {
       width: 64px;
       height: 64px;
-      margin: 0 auto 16px;
-      border-radius: 999px;
       background: #dcfce7;
       color: #22c55e;
+      border-radius: 9999px;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      margin: 0 auto 16px;
+    }
+
+    .success-icon svg {
+      width: 32px;
+      height: 32px;
     }
 
     .modal-card h3 {
-      margin: 0 0 10px;
-      font-size: 22px;
+      margin: 0 0 8px;
       color: #1f2937;
+      font-size: 20px;
+      font-weight: 700;
     }
 
     .modal-card p {
-      margin: 0 0 20px;
+      margin: 0 0 24px;
       color: #4b5563;
       line-height: 1.7;
       font-size: 15px;
@@ -253,15 +279,15 @@
 
     .line-btn {
       width: 100%;
-      border: none;
       background: #22c55e;
-      color: #fff;
-      font-size: 16px;
+      color: #ffffff;
       font-weight: 700;
-      padding: 14px;
-      border-radius: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 16px;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: background-color 0.2s ease;
     }
 
     .line-btn:hover {
@@ -269,26 +295,31 @@
     }
 
     @media (max-width: 480px) {
-      .header h1 {
-        font-size: 24px;
+      body {
+        padding: 20px 12px;
       }
 
-      .grid-2 {
-        grid-template-columns: 1fr 1fr;
+      .form {
+        padding: 20px;
+      }
+
+      .star-btn svg {
+        width: 42px;
+        height: 42px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="page-wrap">
     <div class="header">
       <h1>🍝 義朵朵pasta</h1>
       <p>顧客口味服務調查表</p>
     </div>
 
-    <form id="surveyForm">
-      <div class="section">
-        <label class="label">📍 今天在哪間分店用餐呢？<span class="required">*</span></label>
+    <form id="surveyForm" class="form space-y-6">
+      <div>
+        <label class="label">📍 今天在哪間分店用餐呢？<span class="text-red">*</span></label>
         <div class="grid-1">
           <div>
             <input type="radio" name="branch" id="branch1" value="屏東中正店" class="hidden-radio" required />
@@ -305,10 +336,10 @@
         </div>
       </div>
 
-      <hr class="divider" />
+      <hr />
 
-      <div class="section">
-        <label class="label">⏰ 用餐時段<span class="required">*</span></label>
+      <div>
+        <label class="label">⏰ 用餐時段<span class="text-red">*</span></label>
         <div class="grid-2">
           <div>
             <input type="radio" name="mealTime" id="timeNoon" value="中午" class="hidden-radio" required />
@@ -321,78 +352,64 @@
         </div>
       </div>
 
-      <div class="section">
-        <label class="label" for="visitDate">📅 用餐日期<span class="required">*</span></label>
-        <input type="date" id="visitDate" name="visitDate" class="input" required />
+      <div>
+        <label class="label" for="visitDate">📅 用餐日期<span class="text-red">*</span></label>
+        <input type="date" id="visitDate" name="visitDate" required class="input" />
       </div>
 
-      <hr class="divider" />
+      <hr />
 
-      <div class="section">
-        <label class="label">⭐ 服務與餐點滿意度 (0-5星)<span class="required">*</span></label>
-        <div class="star-wrap" id="starContainer">
-          <svg data-value="1" class="star-svg" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-          </svg>
-          <svg data-value="2" class="star-svg" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-          </svg>
-          <svg data-value="3" class="star-svg" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-          </svg>
-          <svg data-value="4" class="star-svg" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-          </svg>
-          <svg data-value="5" class="star-svg" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-          </svg>
+      <div>
+        <label class="label">⭐ 服務與餐點滿意度 (1-5星)<span class="text-red">*</span></label>
+        <div class="star-container" id="starContainer">
+          <button type="button" data-value="1" class="star-btn" aria-label="1 星">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+          </button>
+          <button type="button" data-value="2" class="star-btn" aria-label="2 星">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+          </button>
+          <button type="button" data-value="3" class="star-btn" aria-label="3 星">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+          </button>
+          <button type="button" data-value="4" class="star-btn" aria-label="4 星">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+          </button>
+          <button type="button" data-value="5" class="star-btn" aria-label="5 星">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+          </button>
         </div>
-        <input type="hidden" id="ratingValue" name="ratingValue" required />
-        <p id="ratingError" class="error">請點擊星星進行評分</p>
+        <input type="hidden" id="ratingValue" name="ratingValue" />
+        <p id="ratingError" class="error-text">⚠️ 請點擊星星進行評分</p>
       </div>
 
-      <hr class="divider" />
+      <hr />
 
-      <div class="section">
-        <label class="label" for="feedback">💬 餐點名稱與建議 / 問題<span class="required">*</span></label>
+      <div>
+        <label class="label" for="feedback">💬 餐點名稱與建議 / 問題<span class="text-red">*</span></label>
         <textarea
           id="feedback"
           name="feedback"
-          class="textarea"
           rows="4"
           required
           placeholder="例如：白酒蛤蜊麵很好吃，但冷氣有點太冷了..."
+          class="textarea"
         ></textarea>
       </div>
 
       <button type="submit" class="submit-btn">
         <span>提交至官方 LINE</span>
-        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
         </svg>
       </button>
     </form>
-  </div>
-
-  <div id="successModal" class="modal">
-    <div class="modal-card">
-      <div class="success-icon">
-        <svg width="30" height="30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-      </div>
-      <h3>問卷內容已複製！</h3>
-      <p>
-        即將跳轉至義朵朵pasta官方LINE。<br />
-        請在對話框中選擇 <span class="highlight">「貼上並送出」</span>，就能完成回饋囉！
-      </p>
-      <button id="goToLineBtn" class="line-btn">前往官方 LINE</button>
-    </div>
-  </div>
-
-  <script>
-    document.getElementById("visitDate").valueAsDate = new Date();
-
-    const stars = document.querySelectorAll(".star-svg");
-    const ratingInput = document.getElementById("ratingValue");
-    const ratingError = document.getElementById("ratingError");
