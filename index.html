@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>義朵朵pasta - 顧客口味服務調查表</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: #fff7ed;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 32px 16px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 430px;
+      background: #ffffff;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid #ffedd5;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .header {
+      background: #f97316;
+      color: #ffffff;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .header p {
+      margin: 8px 0 0;
+      font-size: 14px;
+      color: #ffedd5;
+    }
+
+    form {
+      padding: 24px;
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .label {
+      display: block;
+      color: #374151;
+      font-weight: 600;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .required {
+      color: #ef4444;
+    }
+
+    .grid-1,
+    .grid-2 {
+      display: grid;
+      gap: 12px;
+    }
+
+    .grid-1 {
+      grid-template-columns: 1fr;
+    }
+
+    .grid-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    input[type="radio"].hidden-radio {
+      display: none;
+    }
+
+    .option-label {
+      display: block;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      padding: 14px 16px;
+      background: #fff;
+      color: #374151;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .option-label:hover {
+      background: #fff7ed;
+    }
+
+    input[type="radio"].hidden-radio:checked + .option-label {
+      background: #f97316;
+      color: #fff;
+      border-color: #f97316;
+    }
+
+    .divider {
+      border: 0;
+      border-top: 1px solid #f3f4f6;
+      margin: 24px 0;
+    }
+
+    .input,
+    .textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      background: #fff;
+    }
+
+    .input:focus,
+    .textarea:focus {
+      border-color: #f97316;
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+    }
+
+    .textarea {
+      resize: none;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+
+    .star-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .star-svg {
+      width: 40px;
+      height: 40px;
+      color: #d1d5db;
+      cursor: pointer;
+      transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    }
+
+    .star-svg:active {
+      transform: scale(0.85);
+    }
+
+    .star-active {
+      color: #facc15;
+    }
+
+    .error {
+      color: #ef4444;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      background: #f97316;
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      padding: 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(249, 115, 22, 0.25);
+      transition: background 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover {
+      background: #ea580c;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      padding: 16px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 360px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      color: #1f2937;
+    }
+
+    .modal-card p {
+      margin: 0 0 20px;
+      color: #4b5563;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .highlight {
+      color: #f97316;
+      font-weight: 700;
+    }
+
+    .line-btn {
+      width: 100%;
+      border: none;
+      background: #22c55e;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .line-btn:hover {
+      background: #16a34a;
+    }
+
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🍝 義朵朵pasta</h1>
+      <p>顧客口味服務調查表</p>
+    </div>
+
+    <form id="surveyForm">
+      <div class="section">
+        <label class="label">📍 今天在哪間分店用餐呢？<span class="required">*</span></label>
+        <div class="grid-1">
+          <div>
+            <input type="radio" name="branch" id="branch1" value="屏東中正店" class="hidden-radio" required />
+            <label for="branch1" class="option-label">屏東中正店</label>
+          </div>
+          <div>
+            <input type="radio" name="branch" id="branch2" value="屏東福建店" class="hidden-radio" />
+            <label for="branch2" class="option-label">屏東福建店</label>
+          </div>
+          <div>
+            <input type="radio" name="branch" id="branch3" value="高雄文化店" class="hidden-radio" />
+            <label for="branch3" class="option-label">高雄文化店</label>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="section">
+        <label class="label">⏰ 用餐時段<span class="required">*</span></label>
+        <div class="grid-2">
+          <div>
+            <input type="radio" name="mealTime" id="timeNoon" value="中午" class="hidden-radio" required />
+            <label for="timeNoon" class="option-label">☀️ 中午</label>
+          </div>
+          <div>
+            <input type="radio" name="mealTime" id="timeNight" value="晚上" class="hidden-radio" />
+            <label for="timeNight" class="option-label">🌙 晚上</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <label class="label" for="visitDate">📅 用餐日期<span class="required">*</span></label>
+        <input type="date" id="visitDate" name="visitDate" class="input" required />
+      </div>
+
+      <hr class="divider" />
+
+      <div class="section">
+        <label class="label">⭐ 服務與餐點滿意度 (0-5星)<span class="required">*</span></label>
+        <div class="star-wrap" id="starContainer">
+          <svg data-value="1" class="star-svg" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+          <svg data-value="2" class="star-svg" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+          <svg data-value="3" class="star-svg" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+          <svg data-value="4" class="star-svg" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+          <svg data-value="5" class="star-svg" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+        </div>
+        <input type="hidden" id="ratingValue" name="ratingValue" required />
+        <p id="ratingError" class="error">請點擊星星進行評分</p>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="section">
+        <label class="label" for="feedback">💬 餐點名稱與建議 / 問題<span class="required">*</span></label>
+        <textarea
+          id="feedback"
+          name="feedback"
+          class="textarea"
+          rows="4"
+          required
+          placeholder="例如：白酒蛤蜊麵很好吃，但冷氣有點太冷了..."
+        ></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        <span>提交至官方 LINE</span>
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      </button>
+    </form>
+  </div>
+
+  <div id="successModal" class="modal">
+    <div class="modal-card">
+      <div class="success-icon">
+        <svg width="30" height="30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <h3>問卷內容已複製！</h3>
+      <p>
+        即將跳轉至義朵朵pasta官方LINE。<br />
+        請在對話框中選擇 <span class="highlight">「貼上並送出」</span>，就能完成回饋囉！
+      </p>
+      <button id="goToLineBtn" class="line-btn">前往官方 LINE</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("visitDate").valueAsDate = new Date();
+
+    const stars = document.querySelectorAll(".star-svg");
+    const ratingInput = document.getElementById("ratingValue");
+    const ratingError = document.getElementById("ratingError");
