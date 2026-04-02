@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>義朵朵pasta - 顧客滿意度調查</title>
   <style>
     * {
@@ -16,11 +16,12 @@
       --orange-600: #ea580c;
       --green-100: #dcfce7;
       --green-500: #22c55e;
-      --yellow-400: #facc15;
+      --green-600: #16a34a;
+      --gray-50: #f9fafb;
       --gray-100: #f3f4f6;
       --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
       --gray-500: #6b7280;
-      --gray-600: #4b5563;
       --gray-700: #374151;
       --gray-800: #1f2937;
       --red-500: #ef4444;
@@ -33,10 +34,10 @@
       -webkit-tap-highlight-color: transparent;
       background: var(--orange-50);
       min-height: 100vh;
-      padding: 32px 16px;
+      padding: 24px 16px;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
     }
 
     .card {
@@ -47,6 +48,7 @@
       border-radius: 24px;
       overflow: hidden;
       box-shadow: 0 20px 30px rgba(0, 0, 0, 0.08);
+      margin-bottom: 32px;
     }
 
     .header {
@@ -76,13 +78,13 @@
     }
 
     .form > * + * {
-      margin-top: 24px;
+      margin-top: 32px;
     }
 
     .label {
       display: block;
       color: var(--gray-700);
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
       margin-bottom: 12px;
       line-height: 1.6;
@@ -90,17 +92,13 @@
 
     .required {
       color: var(--red-500);
+      margin-left: 4px;
     }
 
-    .grid-1,
     .grid-2,
     .grid-3 {
       display: grid;
-      gap: 12px;
-    }
-
-    .grid-1 {
-      grid-template-columns: 1fr;
+      gap: 16px;
     }
 
     .grid-2 {
@@ -112,8 +110,8 @@
       gap: 8px;
     }
 
-    .small-text {
-      font-size: 14px;
+    .stack > * + * {
+      margin-top: 12px;
     }
 
     hr {
@@ -132,15 +130,22 @@
       justify-content: center;
       text-align: center;
       cursor: pointer;
-      border: 1px solid var(--gray-200);
-      border-radius: 12px;
-      padding: 12px 14px;
+      border: 2px solid var(--gray-100);
+      border-radius: 16px;
+      padding: 14px 10px;
+      min-height: 54px;
       background: var(--white);
       color: var(--gray-700);
+      line-height: 1.4;
       transition: all 0.2s ease;
       user-select: none;
-      line-height: 1.4;
-      min-height: 48px;
+    }
+
+    .option-label.small {
+      border-radius: 12px;
+      font-size: 14px;
+      min-height: 52px;
+      padding: 12px 6px;
     }
 
     .option-label:hover {
@@ -151,18 +156,19 @@
       background-color: var(--orange-500);
       color: var(--white);
       border-color: var(--orange-500);
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
     }
 
     .input,
     .textarea {
       width: 100%;
-      border: 1px solid var(--gray-200);
-      border-radius: 12px;
-      padding: 12px 16px;
+      border: 2px solid var(--gray-100);
+      border-radius: 16px;
+      padding: 16px;
       font-size: 16px;
       color: var(--gray-800);
-      background: var(--white);
+      background: var(--gray-50);
       outline: none;
       transition: box-shadow 0.2s ease, border-color 0.2s ease;
       font-family: inherit;
@@ -170,77 +176,61 @@
 
     .input:focus,
     .textarea:focus {
-      border-color: var(--orange-500);
-      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+      border-color: transparent;
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
+      background: var(--white);
     }
 
     .textarea {
       resize: none;
-      min-height: 112px;
+      min-height: 120px;
       line-height: 1.6;
     }
 
-    .star-title {
-      text-align: center;
+    .rating-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      padding: 0 4px;
     }
 
-    .star-container {
+    .rating-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+    }
+
+    .rating-label {
+      width: 48px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      flex-wrap: nowrap;
-    }
-
-    .star-btn {
-      background: transparent;
-      border: none;
-      padding: 4px;
-      margin: 0;
+      border: 2px solid var(--gray-200);
+      border-radius: 9999px;
       cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      border-radius: 10px;
-      transition: transform 0.1s ease-in-out;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gray-700);
+      background: var(--white);
+      transition: all 0.2s ease;
+      user-select: none;
     }
 
-    .star-btn:active {
-      transform: scale(0.84);
+    .rating-label:hover {
+      background: var(--orange-50);
     }
 
-    .star-btn:focus-visible {
-      outline: 2px solid var(--orange-500);
-      outline-offset: 2px;
-    }
-
-    .star-btn svg {
-      width: 48px;
-      height: 48px;
-      color: var(--gray-200);
-      transition: color 0.2s ease;
-      display: block;
-      pointer-events: none;
-    }
-
-    .star-btn svg.active {
-      color: var(--yellow-400);
-    }
-
-    .error-text {
-      color: var(--red-500);
-      font-size: 14px;
-      text-align: center;
+    .rating-text {
+      display: flex;
+      justify-content: space-between;
       margin-top: 8px;
-      font-weight: 600;
-      display: none;
-      line-height: 1.5;
-    }
-
-    .error-text.show {
-      display: block;
+      padding: 0 8px;
+      font-size: 12px;
+      color: var(--gray-400);
+      line-height: 1.4;
     }
 
     .submit-btn {
@@ -248,21 +238,15 @@
       background: var(--orange-500);
       color: var(--white);
       font-weight: 700;
-      font-size: 16px;
+      font-size: 18px;
       border: none;
-      border-radius: 12px;
-      padding: 16px 18px;
+      border-radius: 16px;
+      padding: 18px 16px;
       box-shadow: 0 10px 20px rgba(249, 115, 22, 0.24);
       transition: background-color 0.2s ease, transform 0.08s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
       cursor: pointer;
-      line-height: 1.5;
-      min-height: 56px;
-      white-space: normal;
-      word-break: break-word;
+      min-height: 62px;
+      line-height: 1.4;
     }
 
     .submit-btn:hover {
@@ -270,25 +254,93 @@
     }
 
     .submit-btn:active {
-      transform: scale(0.98);
+      transform: scale(0.95);
     }
 
-    .hint {
-      margin-top: 10px;
-      font-size: 13px;
-      color: var(--gray-500);
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      padding: 24px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 380px;
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px;
       text-align: center;
-      line-height: 1.6;
+      box-shadow: 0 24px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      background: var(--green-100);
+      color: var(--green-600);
+      border-radius: 9999px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .success-icon svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .modal-card h3 {
+      margin: 0 0 8px;
+      color: var(--gray-800);
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .modal-card p {
+      margin: 0 0 24px;
+      color: var(--gray-500);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .highlight {
+      color: var(--orange-600);
+      font-weight: 700;
+    }
+
+    .line-btn {
+      width: 100%;
+      background: var(--green-500);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 18px;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      box-shadow: 0 8px 18px rgba(34, 197, 94, 0.22);
+      min-height: 58px;
+    }
+
+    .line-btn:hover {
+      background: var(--green-600);
     }
 
     @media (max-width: 480px) {
       body {
-        padding: 20px 12px;
-        align-items: flex-start;
-      }
-
-      .form {
-        padding: 20px;
+        padding: 16px 12px;
       }
 
       .header {
@@ -299,23 +351,32 @@
         font-size: 22px;
       }
 
-      .star-btn svg {
-        width: 42px;
-        height: 42px;
+      .form {
+        padding: 20px;
       }
 
-      .grid-3 {
-        gap: 6px;
+      .label {
+        font-size: 17px;
       }
 
-      .option-label {
-        padding: 12px 8px;
-        font-size: 13px;
+      .grid-2 {
+        gap: 12px;
       }
 
-      .submit-btn {
-        font-size: 15px;
-        padding: 15px 14px;
+      .rating-wrap {
+        gap: 4px;
+        padding: 0;
+      }
+
+      .rating-label {
+        width: 44px;
+        height: 44px;
+        font-size: 17px;
+      }
+
+      .submit-btn,
+      .line-btn {
+        font-size: 17px;
       }
     }
   </style>
@@ -344,18 +405,18 @@
 
       <div>
         <label class="label">🎂 年齡層<span class="required">*</span></label>
-        <div class="grid-3 small-text">
+        <div class="grid-3">
           <div>
             <input type="radio" name="ageGroup" id="age1" value="20歲以下" class="hidden-radio" required />
-            <label for="age1" class="option-label">20歲以下</label>
+            <label for="age1" class="option-label small">20歲以下</label>
           </div>
           <div>
             <input type="radio" name="ageGroup" id="age2" value="21-50歲" class="hidden-radio" />
-            <label for="age2" class="option-label">21-50歲</label>
+            <label for="age2" class="option-label small">21-50歲</label>
           </div>
           <div>
             <input type="radio" name="ageGroup" id="age3" value="51歲以上" class="hidden-radio" />
-            <label for="age3" class="option-label">51歲以上</label>
+            <label for="age3" class="option-label small">51歲以上</label>
           </div>
         </div>
       </div>
@@ -364,7 +425,7 @@
 
       <div>
         <label class="label">📍 用餐分店<span class="required">*</span></label>
-        <div class="grid-1">
+        <div class="stack">
           <div>
             <input type="radio" name="branch" id="branch1" value="屏東中正店" class="hidden-radio" required />
             <label for="branch1" class="option-label">屏東中正店</label>
@@ -402,12 +463,156 @@
       <hr />
 
       <div>
-        <label class="label star-title">⭐ 滿意度評分 (1-5星)<span class="required">*</span></label>
-        <div class="star-container" id="starContainer">
-          <button type="button" data-value="1" class="star-btn" aria-label="1 星">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-            </svg>
-          </button>
-          <button type="button" data-value="2" class="star-btn" aria-label="2 星">
-            <svg fill="currentColor" viewBox="0 0 24 2
+        <label class="label" style="text-align:center;">⭐ 滿意度評分 (0-5分)<span class="required">*</span></label>
+        <div class="rating-wrap">
+          <div class="rating-item">
+            <input type="radio" name="score" id="s0" value="0" class="hidden-radio" required />
+            <label for="s0" class="rating-label">0</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" name="score" id="s1" value="1" class="hidden-radio" />
+            <label for="s1" class="rating-label">1</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" name="score" id="s2" value="2" class="hidden-radio" />
+            <label for="s2" class="rating-label">2</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" name="score" id="s3" value="3" class="hidden-radio" />
+            <label for="s3" class="rating-label">3</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" name="score" id="s4" value="4" class="hidden-radio" />
+            <label for="s4" class="rating-label">4</label>
+          </div>
+          <div class="rating-item">
+            <input type="radio" name="score" id="s5" value="5" class="hidden-radio" />
+            <label for="s5" class="rating-label">5</label>
+          </div>
+        </div>
+        <div class="rating-text">
+          <span>很不滿意</span>
+          <span>非常滿意</span>
+        </div>
+      </div>
+
+      <hr />
+
+      <div>
+        <label class="label" for="feedback">💬 餐點名稱與建議 / 問題<span class="required">*</span></label>
+        <textarea
+          id="feedback"
+          name="feedback"
+          rows="4"
+          required
+          placeholder="請寫下您的餐點名稱或任何建議..."
+          class="textarea"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">提交並開啟 LINE</button>
+    </form>
+  </div>
+
+  <div id="successModal" class="modal">
+    <div class="modal-card">
+      <div class="success-icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <h3>問卷內容已複製！</h3>
+      <p>
+        按下下方按鈕將開啟官方 LINE，請在對話框中直接
+        <strong class="highlight">「貼上」</strong>
+        訊息傳送即可。
+      </p>
+      <button id="goToLineBtn" class="line-btn">前往 LINE 貼上</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("visitDate").valueAsDate = new Date();
+
+    document.getElementById("surveyForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const genderChecked = document.querySelector('input[name="gender"]:checked');
+      const ageChecked = document.querySelector('input[name="ageGroup"]:checked');
+      const branchChecked = document.querySelector('input[name="branch"]:checked');
+      const mealTimeChecked = document.querySelector('input[name="mealTime"]:checked');
+      const scoreChecked = document.querySelector('input[name="score"]:checked');
+
+      if (!genderChecked || !ageChecked || !branchChecked || !mealTimeChecked || !scoreChecked) {
+        this.reportValidity();
+        return;
+      }
+
+      const gender = genderChecked.value;
+      const ageGroup = ageChecked.value;
+      const branch = branchChecked.value;
+      const mealTime = mealTimeChecked.value;
+      const visitDate = document.getElementById("visitDate").value;
+      const score = scoreChecked.value;
+      const feedback = document.getElementById("feedback").value;
+
+      const message =
+        `【義朵朵回饋調查表】\n` +
+        `👤 性別：${gender}\n` +
+        `🎂 年齡：${ageGroup}\n` +
+        `📍 店名：${branch}\n` +
+        `📅 日期：${visitDate}\n` +
+        `⏰ 時段：${mealTime}\n` +
+        `⭐ 評分：${score} / 5 分\n` +
+        `💬 內容：\n${feedback}`;
+
+      copyToClipboard(message);
+    });
+
+    function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showModal();
+        }).catch(() => {
+          fallbackCopyTextToClipboard(text);
+        });
+      } else {
+        fallbackCopyTextToClipboard(text);
+      }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      textArea.style.top = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        document.execCommand("copy");
+        showModal();
+      } catch (err) {
+        alert("內容已準備好，請前往 LINE 貼上。");
+        showModal();
+      }
+
+      document.body.removeChild(textArea);
+    }
+
+    const modal = document.getElementById("successModal");
+    const goToLineBtn = document.getElementById("goToLineBtn");
+    const lineOfficialUrl = "https://lin.ee/wPFddmn";
+
+    function showModal() {
+      modal.classList.add("show");
+    }
+
+    goToLineBtn.addEventListener("click", function () {
+      window.location.href = lineOfficialUrl;
+    });
+  </script>
+</body>
+</html>
